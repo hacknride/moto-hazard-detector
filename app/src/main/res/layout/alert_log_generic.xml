@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/alert_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    android:elevation="4dp"
+    android:padding="8dp"
+    android:backgroundTint="@color/alert_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/alert_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No Message Specified"
+            android:textStyle="bold"
+            android:textColor="@color/alert_text"
+            android:background="@color/alert_info"
+            android:textSize="16sp"
+            android:padding="4dp"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/alert_timestamp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="12:00:00 AM"
+            android:textSize="12sp"
+            android:padding="5dp"
+            android:layout_marginHorizontal="5dp"
+            android:textColor="@color/alert_timestamp"/>
+
+        <TextView
+            android:id="@+id/alert_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No message specified"
+            android:textSize="14sp"
+            android:padding="4dp"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/alert_advisory"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

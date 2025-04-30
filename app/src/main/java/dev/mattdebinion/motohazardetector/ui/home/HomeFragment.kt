@@ -11,6 +11,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.arashivision.sdkcamera.camera.InstaCameraManager
 import com.arashivision.sdkcamera.camera.resolution.PreviewStreamResolution
 import com.arashivision.sdkmedia.player.capture.InstaCapturePlayerView
@@ -19,6 +21,8 @@ import dev.mattdebinion.motohazardetector.camera.CameraConnectionManager
 import dev.mattdebinion.motohazardetector.camera.CameraPreviewManager
 import dev.mattdebinion.motohazardetector.camera.CameraViewModel
 import dev.mattdebinion.motohazardetector.databinding.FragmentHomeBinding
+import dev.mattdebinion.motohazardetector.ui.alerts.AlertLogAdapter
+import dev.mattdebinion.motohazardetector.ui.alerts.AlertViewModel
 import dev.mattdebinion.motohazardetector.ui.settings.GeneralViewModel
 
 /**
@@ -35,10 +39,12 @@ class HomeFragment : Fragment(), ConnectTypeDialogFragment.ConnectTypeDialogList
 
     // View models that need to be checked by the camera
     // TODO permissions on the buttons if not all granted!
-
-    // private val permissionsViewModel: PermissionsViewModel by activityViewModels()
     private val generalViewModel: GeneralViewModel by activityViewModels()
     private val cameraViewModel: CameraViewModel by activityViewModels()
+    private val alertViewModel: AlertViewModel by activityViewModels()
+
+    // Set the adapters to be used by the HomeFragment
+    private lateinit var alertLogAdapter: AlertLogAdapter
 
     // The camera connection manager and preview manager. Related variables included
     private lateinit var cameraConnectionManager: CameraConnectionManager
@@ -51,26 +57,53 @@ class HomeFragment : Fragment(), ConnectTypeDialogFragment.ConnectTypeDialogList
     // The CapturePlayerView
     private lateinit var capturePlayerView: InstaCapturePlayerView
 
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        // Initialize the capturePlayerView, bind the lifecycle, and set the listener!
+        // Initialize the capturePlayerView and CameraPreviewManager
         capturePlayerView = binding.capturePlayerView
-        cameraPreviewManager = CameraPreviewManager(cameraViewModel)
+        cameraPreviewManager = CameraPreviewManager(cameraViewModel, alertViewModel)
         cameraPreviewManager.bindLifecycle(capturePlayerView, viewLifecycleOwner.lifecycle)
         InstaCameraManager.getInstance().setPreviewStatusChangedListener(cameraPreviewManager)
         handler = Handler(Looper.getMainLooper())
 
-        setFragmentListeners()
-        setButtonListeners()
+        val alertRecyclerView = binding.alertLogRecycler
+        alertLogAdapter = AlertLogAdapter(emptyList())
+        alertRecyclerView.adapter = alertLogAdapter
+        alertRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        setFragmentListeners()      // Set the fragment listeners to update the UI
+        setButtonListeners()        // Set the button listeners to update the UI
 
         return binding.root
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         InstaCameraManager.getInstance().setPreviewStatusChangedListener(null)
         _binding = null
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        if (cameraViewModel.isCameraConnected.value == true) {
+            Log.i("HomeFragment", "Camera is already connected. Restarting preview stream.")
+
+            capturePlayerView.post {
+                cameraPreviewManager.bindLifecycle(capturePlayerView, viewLifecycleOwner.lifecycle)
+                InstaCameraManager.getInstance().setPreviewStatusChangedListener(cameraPreviewManager)
+                InstaCameraManager.getInstance().startPreviewStream(
+                    PreviewStreamResolution.STREAM_1920_960_30FPS,
+                    InstaCameraManager.PREVIEW_TYPE_LIVE
+                )
+            }
+        }
     }
 
     override fun onConfirmClick(dialog: DialogFragment, connectType: Int) {
@@ -143,6 +176,9 @@ class HomeFragment : Fragment(), ConnectTypeDialogFragment.ConnectTypeDialogList
             }
         })
 
+        alertViewModel.alerts.observe(viewLifecycleOwner) { alerts ->
+            alertLogAdapter.updateAlerts(alerts)
+        }
 
         // TODO the HomeViewModel for the pause/unpause button!
     }
@@ -178,7 +214,6 @@ class HomeFragment : Fragment(), ConnectTypeDialogFragment.ConnectTypeDialogList
                     val supportedList = InstaCameraManager.getInstance().getSupportedPreviewStreamResolution(InstaCameraManager.PREVIEW_TYPE_LIVE)
                     Log.i("HomeFragment", supportedList.toString())
 
-                    // TODO: add options to change the resolution?
                     Log.i("HomeFragment", "Launching the preview stream :3")
                     InstaCameraManager.getInstance().setPreviewStatusChangedListener(cameraPreviewManager)
                     InstaCameraManager.getInstance().startPreviewStream(PreviewStreamResolution.STREAM_1920_960_30FPS,InstaCameraManager.PREVIEW_TYPE_LIVE)

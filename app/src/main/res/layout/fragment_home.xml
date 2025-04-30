@@ -65,7 +65,7 @@
         </LinearLayout>
     </FrameLayout>
 
-    <!-- The label "Preview Statistics" -->
+    <!-- The label "Alert Log" -->
     <TextView
         android:id="@+id/fragment_home_label_statistics"
         android:layout_width="match_parent"
@@ -73,24 +73,27 @@
         android:gravity="center"
         android:textAppearance="?attr/textAppearanceHeadline6"
         android:textColor="?android:colorAccent"
-        android:text="@string/home_label_statistics"
+        android:text="@string/home_label_alertlog"
         app:layout_constraintTop_toBottomOf="@id/capturePlayerFrame"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-    
-    <!-- TODO the preview connection stats -->
-    <LinearLayout
+
+    <!-- TODO the alert log -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/alert_log_recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:padding="8dp"
         app:layout_constraintTop_toBottomOf="@id/fragment_home_label_statistics"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/connection_options">
-        
-    </LinearLayout>
+        app:layout_constraintBottom_toTopOf="@id/connection_options"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        tools:listitem="@layout/alert_log_generic"/>
 
-    
-    <!-- The layout contains the camera connection options "Start"/"Stop" and "Pause"-->
+
+    <!-- The layout contains the camera connection options "Start"/"Stop" and "Lock"-->
     <LinearLayout
         android:id="@+id/connection_options"
         android:layout_width="match_parent"
@@ -101,7 +104,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
-        
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_connection"
             android:enabled="true"
@@ -121,12 +124,12 @@
             app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_pause"
+            android:id="@+id/button_lock"
             android:enabled="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="@string/button_text_pause"
+            android:text="@string/button_text_lock"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:backgroundTint="@drawable/dark_generic_button_enabled_states"

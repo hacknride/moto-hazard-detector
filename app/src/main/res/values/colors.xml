@@ -7,6 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>"
 
     <color name="DARK_icon_error_red">#FF0000</color>
     <color name="DARK_icon_success_green">#00FF00</color>
@@ -14,4 +15,12 @@
     <color name="DARK_button_light_gray">#B0B0B0</color>
     <color name="DARK_button_medium_gray">#808080</color>
     <color name="DARK_button_dark_gray">#505050</color>
+
+    <color name="alert_background">#1E1F22</color>
+    <color name="alert_info">#6A8759</color>
+    <color name="alert_advisory">#BBB529</color>
+    <color name="alert_warning">#CF5B56</color>
+    <color name="alert_timestamp">#BCBEC4</color>
+    <color name="alert_text">#E9F5E6</color>
+
 </resources>

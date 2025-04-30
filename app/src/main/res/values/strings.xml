@@ -10,8 +10,8 @@
     <string name="menu_label_camerainfo">Camera Information</string>
     <string name="menu_label_settings">Settings</string>
     <string name="menu_label_help">Help</string>
-    <string name="home_label_previewfeed">Camera Preview</string>
-    <string name="home_label_statistics">Preview Statistics</string>
+    <string name="home_label_previewfeed">Camera View</string>
+    <string name="home_label_alertlog">Alert Log</string>
 
     <string name="settings_app_label_permissions">App Permissions</string>
     <string name="settings_app_label_credentials">Camera Credentials</string>
@@ -32,7 +32,7 @@
 
     <string name="button_text_connect">Connect</string>
     <string name="button_text_disconnect">Disconnect</string>>
-    <string name="button_text_pause">Pause</string>
+    <string name="button_text_lock">Lock</string>
     <string name="button_text_edit">Edit</string>
     <string name="button_text_cancel">Cancel</string>
     <string name="button_text_confirm">Confirm</string>

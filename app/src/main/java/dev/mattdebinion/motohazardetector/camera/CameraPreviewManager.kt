@@ -2,6 +2,7 @@ package dev.mattdebinion.motohazardetector.camera
 
 import android.util.Log
 import androidx.lifecycle.Lifecycle
+import dev.mattdebinion.motohazardetector.ui.alerts.AlertViewModel
 import com.arashivision.sdkcamera.camera.InstaCameraManager
 import com.arashivision.sdkcamera.camera.callback.IPreviewStatusListener
 import com.arashivision.sdkmedia.player.capture.CaptureParamsBuilder
@@ -12,12 +13,12 @@ import com.arashivision.sdkmedia.player.listener.PlayerViewListener
  * Camera preview handler
  *
  * @param cameraViewModel The camera view model to update changes to for the UI
+ * @param alertViewModel The alert view model to update changes to for the UI
  * @constructor Create empty Camera preview handler
  */
-class CameraPreviewManager(private val cameraViewModel: CameraViewModel) : IPreviewStatusListener {
+class CameraPreviewManager(private val cameraViewModel: CameraViewModel, private val alertViewModel: AlertViewModel) : IPreviewStatusListener {
 
     private lateinit var capturePlayerView: InstaCapturePlayerView
-
 
     /**
      * Binds the InstaCapturePlayerView to a lifecycle
@@ -51,10 +52,12 @@ class CameraPreviewManager(private val cameraViewModel: CameraViewModel) : IPrev
                 cameraViewModel.setCameraPreviewConnectingStatusChanged(false)                      // Set the preview connecting status to FALSE
                 cameraViewModel.setCameraPreviewStatusChanged(true)                                 // then set the preview connected status to TRUE
                 Log.i("CameraPreviewHandler", "The preview has loaded successfully.")
+                alertViewModel.postAlert("Camera Connected", "The camera is now connected and watching the road. Safe travels!", 0)
             }
 
             override fun onReleaseCameraPipeline() {
                 Log.i("CameraPreviewHandler", "The preview pipeline has ended.")
+                alertViewModel.postAlert("Camera Disconnected Safely", "The camera is now disconnected. Welcome to your destination!", 0)
                 InstaCameraManager.getInstance().setPipeline(null)
                 capturePlayerView.keepScreenOn = false
                 cameraViewModel.setCameraPreviewStatusChanged(false)                                // Set the preview connected status to FALSE
@@ -78,7 +81,8 @@ class CameraPreviewManager(private val cameraViewModel: CameraViewModel) : IPrev
         super.onError()
 
         cameraViewModel.setCameraPreviewStatusChanged(false)                                        // Set the preview connected status to FALSE
-        Log.w("CameraPreviewManager", "ERRORS OCCURED!!!!!!!!!!!!!!")
+        Log.w("CameraPreviewManager", "An error occurred in the camera.")
+        alertViewModel.postAlert("Camera Error", "An error occurred retrieving the feed from your camera. Please reconnect!", 2)
     }
 
     private fun createParams(): CaptureParamsBuilder {
@@ -94,5 +98,4 @@ class CameraPreviewManager(private val cameraViewModel: CameraViewModel) : IPrev
 
         return builder
     }
-
 }
