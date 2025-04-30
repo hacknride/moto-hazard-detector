@@ -1,4 +1,4 @@
-package dev.mattdebinion.onex3streamer.camera
+package dev.mattdebinion.motohazardetector.camera
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity

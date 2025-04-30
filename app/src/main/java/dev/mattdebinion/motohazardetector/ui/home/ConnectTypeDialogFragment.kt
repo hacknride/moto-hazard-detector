@@ -1,7 +1,6 @@
-package dev.mattdebinion.onex3streamer.ui.home
+package dev.mattdebinion.motohazardetector.ui.home
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment

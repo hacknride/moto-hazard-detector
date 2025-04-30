@@ -1,12 +1,11 @@
-package dev.mattdebinion.onex3streamer.camera
+package dev.mattdebinion.motohazardetector.camera
 
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import com.arashivision.sdkcamera.camera.InstaCameraManager
-import com.arashivision.sdkcamera.camera.resolution.PreviewStreamResolution
-import dev.mattdebinion.onex3streamer.networking.ConnectivityHandler
+import dev.mattdebinion.motohazardetector.networking.ConnectivityHandler
 
 
 /**

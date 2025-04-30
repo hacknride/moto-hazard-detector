@@ -1,4 +1,4 @@
-package dev.mattdebinion.onex3streamer.permissions
+package dev.mattdebinion.motohazardetector.permissions
 
 /**
  * This permission group enum class shows all the permissions the app requires. requestCodes are assigned to each

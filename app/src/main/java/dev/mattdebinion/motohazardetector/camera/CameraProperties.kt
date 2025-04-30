@@ -1,4 +1,4 @@
-package dev.mattdebinion.onex3streamer.camera
+package dev.mattdebinion.motohazardetector.camera
 
 data class CameraProperties(
     val nickname: String,

@@ -1,10 +1,9 @@
-package dev.mattdebinion.onex3streamer.camera
+package dev.mattdebinion.motohazardetector.camera
 
 import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import dev.mattdebinion.onex3streamer.R
 
 /**
  * The CameraViewModel class holds the state of the camera connection and information about a connected

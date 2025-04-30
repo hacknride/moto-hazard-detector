@@ -1,4 +1,4 @@
-package dev.mattdebinion.onex3streamer.permissions
+package dev.mattdebinion.motohazardetector.permissions
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

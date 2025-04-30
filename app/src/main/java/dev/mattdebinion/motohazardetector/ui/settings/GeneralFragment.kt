@@ -1,9 +1,8 @@
-package dev.mattdebinion.onex3streamer.ui.settings
+package dev.mattdebinion.motohazardetector.ui.settings
 
 import android.content.Context
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +10,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import dev.mattdebinion.onex3streamer.R
-import dev.mattdebinion.onex3streamer.SharedPreferencesManager
-import dev.mattdebinion.onex3streamer.camera.CameraViewModel
-import dev.mattdebinion.onex3streamer.permissions.AppPermissionManager
-import dev.mattdebinion.onex3streamer.databinding.FragmentSettingsAppBinding
-import dev.mattdebinion.onex3streamer.permissions.PermissionGroup
-import dev.mattdebinion.onex3streamer.permissions.PermissionsViewModel
+import dev.mattdebinion.motohazardetector.R
+import dev.mattdebinion.motohazardetector.permissions.AppPermissionManager
+import dev.mattdebinion.motohazardetector.databinding.FragmentSettingsAppBinding
+import dev.mattdebinion.motohazardetector.permissions.PermissionGroup
+import dev.mattdebinion.motohazardetector.permissions.PermissionsViewModel
 
 /**
  * The GeneralFragment (general settings) allows updating of specific app level settings, such as

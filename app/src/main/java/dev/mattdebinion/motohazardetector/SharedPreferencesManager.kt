@@ -1,9 +1,9 @@
-package dev.mattdebinion.onex3streamer
+package dev.mattdebinion.motohazardetector
 
 import android.app.Application
 import android.content.Context
 import com.google.gson.Gson
-import dev.mattdebinion.onex3streamer.camera.CameraProperties
+import dev.mattdebinion.motohazardetector.camera.CameraProperties
 
 /**
  * The SharedPreferencesManager saves, edits, and retrieves camera information.

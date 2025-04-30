@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="dev.mattdebinion.onex3streamer.camera.CameraViewModel"/>
+            type="dev.mattdebinion.motohazardetector.camera.CameraViewModel"/>
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout

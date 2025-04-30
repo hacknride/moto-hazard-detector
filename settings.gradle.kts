@@ -27,5 +27,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ONE X3 Streamer"
+rootProject.name = "Motorcycle Hazard Detector"
 include(":app")

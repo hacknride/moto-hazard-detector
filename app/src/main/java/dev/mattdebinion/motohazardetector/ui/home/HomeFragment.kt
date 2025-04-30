@@ -1,4 +1,4 @@
-package dev.mattdebinion.onex3streamer.ui.home
+package dev.mattdebinion.motohazardetector.ui.home
 
 import android.os.Bundle
 import android.os.Handler
@@ -14,12 +14,12 @@ import androidx.lifecycle.Observer
 import com.arashivision.sdkcamera.camera.InstaCameraManager
 import com.arashivision.sdkcamera.camera.resolution.PreviewStreamResolution
 import com.arashivision.sdkmedia.player.capture.InstaCapturePlayerView
-import dev.mattdebinion.onex3streamer.R
-import dev.mattdebinion.onex3streamer.camera.CameraConnectionManager
-import dev.mattdebinion.onex3streamer.camera.CameraPreviewManager
-import dev.mattdebinion.onex3streamer.camera.CameraViewModel
-import dev.mattdebinion.onex3streamer.databinding.FragmentHomeBinding
-import dev.mattdebinion.onex3streamer.ui.settings.GeneralViewModel
+import dev.mattdebinion.motohazardetector.R
+import dev.mattdebinion.motohazardetector.camera.CameraConnectionManager
+import dev.mattdebinion.motohazardetector.camera.CameraPreviewManager
+import dev.mattdebinion.motohazardetector.camera.CameraViewModel
+import dev.mattdebinion.motohazardetector.databinding.FragmentHomeBinding
+import dev.mattdebinion.motohazardetector.ui.settings.GeneralViewModel
 
 /**
  * The Home fragment displays a feed when connected to the camera as well as the camera status.

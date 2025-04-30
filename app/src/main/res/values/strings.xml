@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">ONE X3 Streamer</string>
+    <string name="app_name">Motorcycle Hazard Detector</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Insta360 ONE X3 Streamer</string>
-    <string name="nav_header_subtitle">Solution for livestreaming via RTMP</string>
+    <string name="nav_header_title">Motorcycle Hazard Detector</string>
+    <string name="nav_header_subtitle">Detect hazards on the road</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 

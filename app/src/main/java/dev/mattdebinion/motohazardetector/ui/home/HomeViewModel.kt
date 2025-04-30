@@ -1,4 +1,4 @@
-package dev.mattdebinion.onex3streamer.ui.home
+package dev.mattdebinion.motohazardetector.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

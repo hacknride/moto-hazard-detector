@@ -1,26 +1,23 @@
-package dev.mattdebinion.onex3streamer.ui.settings
+package dev.mattdebinion.motohazardetector.ui.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import dev.mattdebinion.onex3streamer.permissions.AppPermissionManager
-import dev.mattdebinion.onex3streamer.databinding.FragmentSettingsAudioBinding
-import dev.mattdebinion.onex3streamer.databinding.FragmentSettingsLiveBinding
+import dev.mattdebinion.motohazardetector.permissions.AppPermissionManager
+import dev.mattdebinion.motohazardetector.databinding.FragmentSettingsPreviewBinding
 
-class AudioFragment : Fragment(), AppPermissionManager.PermissionActions {
+class PreviewFragment : Fragment(), AppPermissionManager.PermissionActions {
 
-    private var _binding: FragmentSettingsAudioBinding? = null
+    private var _binding: FragmentSettingsPreviewBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentSettingsAudioBinding.inflate(inflater, container, false)
+        _binding = FragmentSettingsPreviewBinding.inflate(inflater, container, false)
         return binding.root
     }
 

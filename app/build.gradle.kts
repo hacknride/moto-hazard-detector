@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "dev.mattdebinion.onex3streamer"
+    namespace = "dev.mattdebinion.motohazardetector"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "dev.mattdebinion.onex3streamer"
+        applicationId = "dev.mattdebinion.motohazardetector"
         minSdk = 29
         targetSdk = 35
         versionCode = 1
@@ -41,7 +41,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.common.java8)
@@ -54,6 +53,8 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.sdkcamera)                          // Insta360 SDK for camera
     implementation(libs.sdkmedia)
+    implementation(libs.tensorflow.lite)
+    implementation(libs.tensorflow.lite.task.vision)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

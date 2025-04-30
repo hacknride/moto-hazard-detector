@@ -1,4 +1,4 @@
-package dev.mattdebinion.onex3streamer
+package dev.mattdebinion.motohazardetector
 
 import android.os.Bundle
 import android.view.Menu
@@ -15,12 +15,12 @@ import androidx.lifecycle.Observer
 import com.arashivision.sdkcamera.InstaCameraSDK
 import com.arashivision.sdkcamera.camera.InstaCameraManager
 import com.arashivision.sdkmedia.InstaMediaSDK
-import dev.mattdebinion.onex3streamer.camera.CameraConnectionManager
-import dev.mattdebinion.onex3streamer.camera.CameraStateObserver
-import dev.mattdebinion.onex3streamer.camera.CameraViewModel
-import dev.mattdebinion.onex3streamer.databinding.ActivityMainBinding
-import dev.mattdebinion.onex3streamer.permissions.AppPermissionManager
-import dev.mattdebinion.onex3streamer.ui.settings.GeneralViewModel
+import dev.mattdebinion.motohazardetector.camera.CameraConnectionManager
+import dev.mattdebinion.motohazardetector.camera.CameraStateObserver
+import dev.mattdebinion.motohazardetector.camera.CameraViewModel
+import dev.mattdebinion.motohazardetector.databinding.ActivityMainBinding
+import dev.mattdebinion.motohazardetector.permissions.AppPermissionManager
+import dev.mattdebinion.motohazardetector.ui.settings.GeneralViewModel
 
 /**
  * Main activity

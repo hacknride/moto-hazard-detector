@@ -1,4 +1,4 @@
-package dev.mattdebinion.onex3streamer.permissions
+package dev.mattdebinion.motohazardetector.permissions
 
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
@@ -9,7 +9,6 @@ import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
 import android.util.Log
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 

@@ -1,4 +1,4 @@
-package dev.mattdebinion.onex3streamer.networking
+package dev.mattdebinion.motohazardetector.networking
 
 import android.content.Context
 import android.net.ConnectivityManager

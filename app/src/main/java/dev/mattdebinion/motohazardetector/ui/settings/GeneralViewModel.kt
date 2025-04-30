@@ -1,7 +1,5 @@
-package dev.mattdebinion.onex3streamer.ui.settings
+package dev.mattdebinion.motohazardetector.ui.settings
 
-import android.app.Application
-import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
