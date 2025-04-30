@@ -1,4 +1,4 @@
-package dev.mattdebinion.motohazardetector.permissions
+package dev.mattdebinion.motohazarddetector.permissions
 
 /**
  * This permission group enum class shows all the permissions the app requires. requestCodes are assigned to each

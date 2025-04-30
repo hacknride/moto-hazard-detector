@@ -1,11 +1,11 @@
-package dev.mattdebinion.motohazardetector.camera
+package dev.mattdebinion.motohazarddetector.camera
 
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import com.arashivision.sdkcamera.camera.InstaCameraManager
-import dev.mattdebinion.motohazardetector.networking.ConnectivityHandler
+import dev.mattdebinion.motohazarddetector.networking.ConnectivityHandler
 
 
 /**

@@ -1,4 +1,4 @@
-package dev.mattdebinion.motohazardetector.permissions
+package dev.mattdebinion.motohazarddetector.permissions
 
 import android.app.PendingIntent
 import android.content.BroadcastReceiver

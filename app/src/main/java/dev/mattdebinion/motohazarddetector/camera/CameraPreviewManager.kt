@@ -1,8 +1,8 @@
-package dev.mattdebinion.motohazardetector.camera
+package dev.mattdebinion.motohazarddetector.camera
 
 import android.util.Log
 import androidx.lifecycle.Lifecycle
-import dev.mattdebinion.motohazardetector.ui.alerts.AlertViewModel
+import dev.mattdebinion.motohazarddetector.ui.alerts.AlertViewModel
 import com.arashivision.sdkcamera.camera.InstaCameraManager
 import com.arashivision.sdkcamera.camera.callback.IPreviewStatusListener
 import com.arashivision.sdkmedia.player.capture.CaptureParamsBuilder

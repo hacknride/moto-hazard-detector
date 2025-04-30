@@ -1,4 +1,4 @@
-package dev.mattdebinion.motohazardetector.ui.home
+package dev.mattdebinion.motohazarddetector.ui.home
 
 import android.os.Bundle
 import android.os.Handler
@@ -12,18 +12,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.arashivision.sdkcamera.camera.InstaCameraManager
 import com.arashivision.sdkcamera.camera.resolution.PreviewStreamResolution
 import com.arashivision.sdkmedia.player.capture.InstaCapturePlayerView
-import dev.mattdebinion.motohazardetector.R
-import dev.mattdebinion.motohazardetector.camera.CameraConnectionManager
-import dev.mattdebinion.motohazardetector.camera.CameraPreviewManager
-import dev.mattdebinion.motohazardetector.camera.CameraViewModel
-import dev.mattdebinion.motohazardetector.databinding.FragmentHomeBinding
-import dev.mattdebinion.motohazardetector.ui.alerts.AlertLogAdapter
-import dev.mattdebinion.motohazardetector.ui.alerts.AlertViewModel
-import dev.mattdebinion.motohazardetector.ui.settings.GeneralViewModel
+import dev.mattdebinion.motohazarddetector.R
+import dev.mattdebinion.motohazarddetector.camera.CameraConnectionManager
+import dev.mattdebinion.motohazarddetector.camera.CameraPreviewManager
+import dev.mattdebinion.motohazarddetector.camera.CameraViewModel
+import dev.mattdebinion.motohazarddetector.databinding.FragmentHomeBinding
+import dev.mattdebinion.motohazarddetector.ui.alerts.AlertLogAdapter
+import dev.mattdebinion.motohazarddetector.ui.alerts.AlertViewModel
+import dev.mattdebinion.motohazarddetector.ui.settings.GeneralViewModel
 
 /**
  * The Home fragment displays a feed when connected to the camera as well as the camera status.

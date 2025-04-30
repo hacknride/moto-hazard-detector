@@ -1,14 +1,13 @@
-package dev.mattdebinion.motohazardetector.ui.alerts
+package dev.mattdebinion.motohazarddetector.ui.alerts
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import dev.mattdebinion.motohazardetector.R
-import dev.mattdebinion.motohazardetector.data.HazardAlert
+import dev.mattdebinion.motohazarddetector.R
+import dev.mattdebinion.motohazarddetector.ui.alerts.data.HazardAlert
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

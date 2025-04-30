@@ -1,4 +1,4 @@
-package dev.mattdebinion.motohazardetector.camera
+package dev.mattdebinion.motohazarddetector.camera
 
 import android.os.Looper
 import androidx.lifecycle.LiveData

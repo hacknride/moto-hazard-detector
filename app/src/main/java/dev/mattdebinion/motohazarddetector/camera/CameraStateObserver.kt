@@ -1,4 +1,4 @@
-package dev.mattdebinion.motohazardetector.camera
+package dev.mattdebinion.motohazarddetector.camera
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity

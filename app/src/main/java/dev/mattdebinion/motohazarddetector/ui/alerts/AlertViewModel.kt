@@ -1,10 +1,10 @@
-package dev.mattdebinion.motohazardetector.ui.alerts
+package dev.mattdebinion.motohazarddetector.ui.alerts
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import dev.mattdebinion.motohazardetector.data.HazardAlert
+import dev.mattdebinion.motohazarddetector.ui.alerts.data.HazardAlert
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

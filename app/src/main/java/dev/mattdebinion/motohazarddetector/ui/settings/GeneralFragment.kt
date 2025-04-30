@@ -1,4 +1,4 @@
-package dev.mattdebinion.motohazardetector.ui.settings
+package dev.mattdebinion.motohazarddetector.ui.settings
 
 import android.content.Context
 import android.os.Bundle
@@ -10,11 +10,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import dev.mattdebinion.motohazardetector.R
-import dev.mattdebinion.motohazardetector.permissions.AppPermissionManager
-import dev.mattdebinion.motohazardetector.databinding.FragmentSettingsAppBinding
-import dev.mattdebinion.motohazardetector.permissions.PermissionGroup
-import dev.mattdebinion.motohazardetector.permissions.PermissionsViewModel
+import dev.mattdebinion.motohazarddetector.R
+import dev.mattdebinion.motohazarddetector.permissions.AppPermissionManager
+import dev.mattdebinion.motohazarddetector.databinding.FragmentSettingsAppBinding
+import dev.mattdebinion.motohazarddetector.permissions.PermissionGroup
+import dev.mattdebinion.motohazarddetector.permissions.PermissionsViewModel
 
 /**
  * The GeneralFragment (general settings) allows updating of specific app level settings, such as

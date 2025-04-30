@@ -1,4 +1,4 @@
-package dev.mattdebinion.motohazardetector.ui.home
+package dev.mattdebinion.motohazarddetector.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "dev.mattdebinion.motohazardetector"
+    namespace = "dev.mattdebinion.motohazarddetector"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "dev.mattdebinion.motohazardetector"
+        applicationId = "dev.mattdebinion.motohazarddetector"
         minSdk = 29
         targetSdk = 35
         versionCode = 1

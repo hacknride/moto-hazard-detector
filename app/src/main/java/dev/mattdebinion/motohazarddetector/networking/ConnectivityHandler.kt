@@ -1,4 +1,4 @@
-package dev.mattdebinion.motohazardetector.networking
+package dev.mattdebinion.motohazarddetector.networking
 
 import android.content.Context
 import android.net.ConnectivityManager

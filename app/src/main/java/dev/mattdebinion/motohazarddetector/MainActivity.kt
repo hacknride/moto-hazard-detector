@@ -1,4 +1,4 @@
-package dev.mattdebinion.motohazardetector
+package dev.mattdebinion.motohazarddetector
 
 import android.os.Bundle
 import android.view.Menu
@@ -15,12 +15,12 @@ import androidx.lifecycle.Observer
 import com.arashivision.sdkcamera.InstaCameraSDK
 import com.arashivision.sdkcamera.camera.InstaCameraManager
 import com.arashivision.sdkmedia.InstaMediaSDK
-import dev.mattdebinion.motohazardetector.camera.CameraConnectionManager
-import dev.mattdebinion.motohazardetector.camera.CameraStateObserver
-import dev.mattdebinion.motohazardetector.camera.CameraViewModel
-import dev.mattdebinion.motohazardetector.databinding.ActivityMainBinding
-import dev.mattdebinion.motohazardetector.permissions.AppPermissionManager
-import dev.mattdebinion.motohazardetector.ui.settings.GeneralViewModel
+import dev.mattdebinion.motohazarddetector.camera.CameraConnectionManager
+import dev.mattdebinion.motohazarddetector.camera.CameraStateObserver
+import dev.mattdebinion.motohazarddetector.camera.CameraViewModel
+import dev.mattdebinion.motohazarddetector.databinding.ActivityMainBinding
+import dev.mattdebinion.motohazarddetector.permissions.AppPermissionManager
+import dev.mattdebinion.motohazarddetector.ui.settings.GeneralViewModel
 
 /**
  * Main activity

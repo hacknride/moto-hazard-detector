@@ -1,4 +1,4 @@
-package dev.mattdebinion.motohazardetector.ui.home
+package dev.mattdebinion.motohazarddetector.ui.home
 
 import android.app.Dialog
 import android.os.Bundle

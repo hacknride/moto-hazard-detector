@@ -1,4 +1,4 @@
-package dev.mattdebinion.motohazardetector.permissions
+package dev.mattdebinion.motohazarddetector.permissions
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

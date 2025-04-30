@@ -1,9 +1,9 @@
-package dev.mattdebinion.motohazardetector
+package dev.mattdebinion.motohazarddetector
 
 import android.app.Application
 import android.content.Context
 import com.google.gson.Gson
-import dev.mattdebinion.motohazardetector.camera.CameraProperties
+import dev.mattdebinion.motohazarddetector.camera.data.CameraProperties
 
 /**
  * The SharedPreferencesManager saves, edits, and retrieves camera information.
