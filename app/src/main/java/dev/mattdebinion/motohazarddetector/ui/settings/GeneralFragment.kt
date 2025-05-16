@@ -1,5 +1,6 @@
 package dev.mattdebinion.motohazarddetector.ui.settings
 
+import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.text.InputType
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import dev.mattdebinion.motohazarddetector.R
+import dev.mattdebinion.motohazarddetector.SharedPreferencesManager
 import dev.mattdebinion.motohazarddetector.permissions.AppPermissionManager
 import dev.mattdebinion.motohazarddetector.databinding.FragmentSettingsAppBinding
 import dev.mattdebinion.motohazarddetector.permissions.PermissionGroup
@@ -25,11 +27,9 @@ import dev.mattdebinion.motohazarddetector.permissions.PermissionsViewModel
 class GeneralFragment : Fragment(), AppPermissionManager.PermissionActions {
 
     private lateinit var appPermissionManager: AppPermissionManager
-    /*
-    private val sharedPreferencesManager: SharedPreferencesManager by lazy {
-        SharedPreferencesManager(requireActivity().application)
-    }
-    */
+    private lateinit var sharedPreferencesManager: SharedPreferencesManager
+
+
 
     private var _binding: FragmentSettingsAppBinding? = null
     private val binding get() = _binding!!
@@ -40,13 +40,15 @@ class GeneralFragment : Fragment(), AppPermissionManager.PermissionActions {
     private var isPassVisible = false
 
     /**
-     * This override function instantiates the permission manager.
+     * This override function instantiates the permission manager and the SharedPreferencesManager.
      *
      * @param context
      */
     override fun onAttach(context: Context) {
         super.onAttach(context)
         appPermissionManager = AppPermissionManager.getInstance(context)
+        sharedPreferencesManager = SharedPreferencesManager(context.applicationContext as Application)
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -60,9 +62,13 @@ class GeneralFragment : Fragment(), AppPermissionManager.PermissionActions {
         // Check all permissions for the App Permissions table
         checkPermissions()
 
-        // @TODO make the camera credential field customizable
-        generalViewModel.setCameraSSID("X3 39FFG7.OSC")
-        generalViewModel.setCameraPassword("88888888")
+        // Load saved credentials from SharedPreferences
+        val savedSSID = sharedPreferencesManager.getCameraSSID()
+        val savedPassword = sharedPreferencesManager.getCameraPassword()
+
+        // Set in ViewModel
+        generalViewModel.setCameraSSID(savedSSID)
+        generalViewModel.setCameraPassword(savedPassword)
 
         return binding.root
     }
@@ -166,10 +172,19 @@ class GeneralFragment : Fragment(), AppPermissionManager.PermissionActions {
         }
 
         binding.credentialButtonConfirm.setOnClickListener {
-            // Set the global live variables before reverting state.
-            generalViewModel.setCameraSSID(binding.settingsCameraSsid.text.toString())
-            generalViewModel.setCameraPassword(binding.settingsCameraPassword.text.toString())
+            val ssid = binding.settingsCameraSsid.text.toString()
+            val password = binding.settingsCameraPassword.text.toString()
+
+            // Save to SharedPreferences
+            sharedPreferencesManager.setCameraSSID(ssid)
+            sharedPreferencesManager.setCameraPassword(password)
+
+            // Update ViewModel
+            generalViewModel.setCameraSSID(ssid)
+            generalViewModel.setCameraPassword(password)
+
             generalViewModel.toggleCredentialEditing()
+
         }
     }
 

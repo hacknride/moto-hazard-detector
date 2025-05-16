@@ -11,6 +11,9 @@ import dev.mattdebinion.motohazarddetector.ui.alerts.data.HazardAlert
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+/**
+ * AlertLogAdapter is an adapter for the alert log recycler view.
+ */
 class AlertLogAdapter(private var alerts: List<HazardAlert>) : RecyclerView.Adapter<AlertLogAdapter.AlertViewHolder>() {
 
     inner class AlertViewHolder(view: View) : RecyclerView.ViewHolder(view) {

@@ -6,6 +6,8 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.net.wifi.WifiNetworkSpecifier
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 
 /**
@@ -21,6 +23,10 @@ class ConnectivityHandler(private val context: Context) {
      * Attempt to connect to a given hotspot.
      */
     fun connectToHotspot(ssid: String, password: String, onConnected: () -> Unit, onConnectFailure: () -> Unit) {
+        val handler = Handler(Looper.getMainLooper())
+        var callbackInvoked = false
+        var elapsedTime = 0
+
 
         try {
             saveCurrentNetworkState()
@@ -40,7 +46,50 @@ class ConnectivityHandler(private val context: Context) {
             .setNetworkSpecifier(wifiNetworkSpecifier)
             .build()
 
-        registerNetworkCallback(networkRequest, onConnected, onConnectFailure);
+        // Handle case when the specified hotspot does not connect after a duration of time.
+        val timeoutRunnable = Runnable {
+            if (!callbackInvoked) {
+                callbackInvoked = true
+                Log.e("ConnectivityHandler", "Connection to hotspot timed out.")
+                unregisterNetworkCallback() // Clean up
+                onConnectFailure()
+            }
+        }
+
+        val statusLogger = object : Runnable {
+            override fun run() {
+                if (!callbackInvoked) {
+                    Log.i("ConnectivityHandler", "Waiting for hotspot... ($elapsedTime s)")
+                    elapsedTime++
+                    handler.postDelayed(this, 1000)
+                }
+            }
+        }
+
+        // Initiate time
+        handler.postDelayed(timeoutRunnable, 10_000L)
+        handler.post(statusLogger)
+
+        // Wrap real callbacks to guard against timeout overlap
+        val safeOnConnected = {
+            if (!callbackInvoked) {
+                callbackInvoked = true
+                handler.removeCallbacks(timeoutRunnable)
+                handler.removeCallbacks(statusLogger)
+                onConnected()
+            }
+        }
+
+        val safeOnFailure = {
+            if (!callbackInvoked) {
+                callbackInvoked = true
+                handler.removeCallbacks(timeoutRunnable)
+                handler.removeCallbacks(statusLogger)
+                onConnectFailure()
+            }
+        }
+
+        registerNetworkCallback(networkRequest, safeOnConnected, safeOnFailure);
     }
 
     /**
@@ -82,6 +131,7 @@ class ConnectivityHandler(private val context: Context) {
             override fun onUnavailable() {
                 super.onUnavailable()
                 Log.e("ConnectivityHandler", "The specified camera hotspot is not available.");
+                unregisterNetworkCallback()
 
                 onConnectFailure()
             }

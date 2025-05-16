@@ -22,8 +22,16 @@ class AlertViewModel : ViewModel() {
             severity = severity,
             description = message
         )
-        val updated = _alerts.value ?: mutableListOf()
-        updated.add(0, newAlert)
-        _alerts.value = updated
+
+        // Create new list based on existing data
+        val currentList = _alerts.value ?: mutableListOf()
+        val updatedList = mutableListOf<HazardAlert>().apply {
+            addAll(currentList)
+            add(0, newAlert)
+        }
+
+        // Use postValue since this may be called from a background thread
+        _alerts.postValue(updatedList)
     }
+
 }

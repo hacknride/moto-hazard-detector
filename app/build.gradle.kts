@@ -38,6 +38,12 @@ android {
         viewBinding = true
         dataBinding = true
     }
+
+    packaging {
+        pickFirst("lib/arm64-v8a/libc++_shared.so")
+        pickFirst("lib/armeabi-v7a/libc++_shared.so")
+        pickFirst("lib/x86_64/libc++_shared.so")
+    }
 }
 
 dependencies {
@@ -53,8 +59,9 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.sdkcamera)                          // Insta360 SDK for camera
     implementation(libs.sdkmedia)
-    implementation(libs.tensorflow.lite)
-    implementation(libs.tensorflow.lite.task.vision)
+    implementation(libs.security.crypto)
+    implementation(libs.pytorch.android)
+    implementation(libs.pytorch.android.torchvision)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

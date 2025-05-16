@@ -1,13 +1,17 @@
 package dev.mattdebinion.motohazarddetector.camera
 
+import android.content.Context
 import android.util.Log
+import androidx.core.view.drawToBitmap
 import androidx.lifecycle.Lifecycle
 import dev.mattdebinion.motohazarddetector.ui.alerts.AlertViewModel
 import com.arashivision.sdkcamera.camera.InstaCameraManager
 import com.arashivision.sdkcamera.camera.callback.IPreviewStatusListener
+import com.arashivision.sdkcamera.camera.preview.VideoData
 import com.arashivision.sdkmedia.player.capture.CaptureParamsBuilder
 import com.arashivision.sdkmedia.player.capture.InstaCapturePlayerView
 import com.arashivision.sdkmedia.player.listener.PlayerViewListener
+import dev.mattdebinion.motohazarddetector.ai.HazardDetectionManager
 
 /**
  * Camera preview handler
@@ -16,9 +20,10 @@ import com.arashivision.sdkmedia.player.listener.PlayerViewListener
  * @param alertViewModel The alert view model to update changes to for the UI
  * @constructor Create empty Camera preview handler
  */
-class CameraPreviewManager(private val cameraViewModel: CameraViewModel, private val alertViewModel: AlertViewModel) : IPreviewStatusListener {
+class CameraPreviewManager(private val context: Context, private val cameraViewModel: CameraViewModel, private val alertViewModel: AlertViewModel) : IPreviewStatusListener {
 
     private lateinit var capturePlayerView: InstaCapturePlayerView
+    private lateinit var hazardDetectionManager: HazardDetectionManager
 
     /**
      * Binds the InstaCapturePlayerView to a lifecycle
@@ -42,9 +47,13 @@ class CameraPreviewManager(private val cameraViewModel: CameraViewModel, private
     //TODO
     override fun onOpened() {
         super.onOpened()
+        Log.i("CameraPreviewManager", "The camera has opened!")
+        hazardDetectionManager = HazardDetectionManager(context, alertViewModel)
 
         cameraViewModel.setCameraPreviewConnectingStatusChanged(true)                               // Set the preview connecting status to TRUE
         InstaCameraManager.getInstance().setStreamEncode()
+
+        // Attach a listener to the player
         capturePlayerView.setPlayerViewListener(object : PlayerViewListener {
             override fun onLoadingFinish() {
                 InstaCameraManager.getInstance().setPipeline(capturePlayerView.pipeline)
@@ -60,12 +69,20 @@ class CameraPreviewManager(private val cameraViewModel: CameraViewModel, private
                 alertViewModel.postAlert("Camera Disconnected Safely", "The camera is now disconnected. Welcome to your destination!", 0)
                 InstaCameraManager.getInstance().setPipeline(null)
                 capturePlayerView.keepScreenOn = false
+
                 cameraViewModel.setCameraPreviewStatusChanged(false)                                // Set the preview connected status to FALSE
             }
+
+            override fun onFail(errorCode: Int, errorMsg: String?) {
+                super.onFail(errorCode, errorMsg)
+                Log.i("CameraPreviewHandler", "The preview pipeline has failed to load for this reason: $errorMsg")
+            }
         })
+
         capturePlayerView.prepare(createParams())
         capturePlayerView.play()
         capturePlayerView.keepScreenOn = true
+
     }
 
     override fun onIdle() {
@@ -85,6 +102,15 @@ class CameraPreviewManager(private val cameraViewModel: CameraViewModel, private
         alertViewModel.postAlert("Camera Error", "An error occurred retrieving the feed from your camera. Please reconnect!", 2)
     }
 
+    override fun onVideoData(videoData: VideoData?) {
+        super.onVideoData(videoData)
+        val bitmap = capturePlayerView.drawToBitmap()
+
+        if (bitmap.width > 0 && bitmap.height > 0) {
+            hazardDetectionManager.analyzeFrame(bitmap)
+        }
+    }
+
     private fun createParams(): CaptureParamsBuilder {
         val builder = CaptureParamsBuilder()
             .setCameraType(InstaCameraManager.getInstance().cameraType)
@@ -98,4 +124,5 @@ class CameraPreviewManager(private val cameraViewModel: CameraViewModel, private
 
         return builder
     }
+
 }

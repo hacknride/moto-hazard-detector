@@ -1,103 +1,49 @@
 package dev.mattdebinion.motohazarddetector
 
 import android.app.Application
-import android.content.Context
-import com.google.gson.Gson
-import dev.mattdebinion.motohazarddetector.camera.data.CameraProperties
+import androidx.core.content.edit
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 
-/**
- * The SharedPreferencesManager saves, edits, and retrieves camera information.
- *
- * @constructor
- *
- * @param application
- */
 class SharedPreferencesManager(application: Application) {
 
-    private val sharedPreferences = application.getSharedPreferences("cameras", Context.MODE_PRIVATE)!!
-    private val editor = sharedPreferences.edit()
-
-    /**
-     * Saves a new camera properties
-     *
-     * @param cameraProperties
-     */
-    fun saveCameraProperties(cameraProperties: CameraProperties) : Boolean {
-        val gson = Gson()
-
-        // If the camera exists, do not save and return false
-        val existingCameraCheck = sharedPreferences.getString(cameraProperties.ssid, null)
-        if (existingCameraCheck != null)
-            return false
-
-        val cameraConfig = gson.toJson(cameraProperties)
-        editor.putString(cameraProperties.ssid, cameraConfig)
-        editor.commit()
-
-        return true
+    companion object {
+        private const val PREF_NAME = "camera_prefs"
+        private const val KEY_CAMERA_SSID = "X3 39FFG7.OSC"
+        private const val KEY_CAMERA_PASSWORD = "88888888"
     }
 
-    /**
-     * Get saved camera properties given an SSID
-     *
-     * @param ssid A valid ssid
-     * @return `CameraProperties` if valid, `null` otherwise.
-     */
-    fun getSavedCameraProperties(ssid: String): CameraProperties? {
-        val cameraJson = sharedPreferences.getString(ssid, null)
+    // Create or retrieve a master key for encryption
+    private val masterKey = MasterKey.Builder(application)
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .build()
 
-        return if (cameraJson != null) {
-            try {
-                val gson = Gson()
-                gson.fromJson(cameraJson, CameraProperties::class.java)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                null
-            }
-        } else {
-            null
-        }
+    // Encrypted SharedPreferences (data is encrypted at rest)
+    private val sharedPreferences = EncryptedSharedPreferences.create(
+        application,
+        PREF_NAME,
+        masterKey,
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
+
+    // Save SSID
+    fun setCameraSSID(ssid: String) {
+        sharedPreferences.edit { putString(KEY_CAMERA_SSID, ssid) }
     }
 
-    /**
-     * Given a camera SSID, modify the saved camera configuration
-     *
-     * @param ssid A valid SSID (case sensitive)
-     * @param cameraProperties The properties to modify
-     * @return `true` if successful, `false` otherwise.
-     */
-    fun editSavedCameraProperties(ssid: String, cameraProperties: CameraProperties) : Boolean {
-        val cameraJson = sharedPreferences.getString(ssid, null)
-
-        return if (cameraJson != null) {
-            try {
-                val gson = Gson()
-                val cameraConfigJson = gson.toJson(cameraProperties)
-
-                editor.putString(cameraProperties.ssid, cameraConfigJson)
-                editor.commit()
-
-                true
-            } catch (e: Exception) {
-                false
-            }
-        } else {
-            false
-        }
+    // Save Password
+    fun setCameraPassword(password: String) {
+        sharedPreferences.edit { putString(KEY_CAMERA_PASSWORD, password) }
     }
 
-    /**
-     * Checks if there are any saved camera properties
-     *
-     * @return Boolean indicating if any camera properties are saved
-     */
-    fun hasSavedCameras(): Boolean {
-        val allEntries = sharedPreferences.all
-        return allEntries.isNotEmpty()
+    // Get SSID
+    fun getCameraSSID(): String {
+        return sharedPreferences.getString(KEY_CAMERA_SSID, "") ?: ""
     }
 
-    fun getAllSavedCameras(): Map<String, *> {
-        return sharedPreferences.all
+    // Get Password
+    fun getCameraPassword(): String {
+        return sharedPreferences.getString(KEY_CAMERA_PASSWORD, "") ?: ""
     }
-
 }

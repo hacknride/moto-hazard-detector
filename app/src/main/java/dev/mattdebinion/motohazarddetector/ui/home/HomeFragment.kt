@@ -11,11 +11,14 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arashivision.sdkcamera.camera.InstaCameraManager
 import com.arashivision.sdkcamera.camera.resolution.PreviewStreamResolution
 import com.arashivision.sdkmedia.player.capture.InstaCapturePlayerView
 import dev.mattdebinion.motohazarddetector.R
+import dev.mattdebinion.motohazarddetector.SharedPreferencesManager
+import dev.mattdebinion.motohazarddetector.ai.HazardDetectionManager
 import dev.mattdebinion.motohazarddetector.camera.CameraConnectionManager
 import dev.mattdebinion.motohazarddetector.camera.CameraPreviewManager
 import dev.mattdebinion.motohazarddetector.camera.CameraViewModel
@@ -37,7 +40,6 @@ class HomeFragment : Fragment(), ConnectTypeDialogFragment.ConnectTypeDialogList
     private val binding get() = _binding!!
 
     // View models that need to be checked by the camera
-    // TODO permissions on the buttons if not all granted!
     private val generalViewModel: GeneralViewModel by activityViewModels()
     private val cameraViewModel: CameraViewModel by activityViewModels()
     private val alertViewModel: AlertViewModel by activityViewModels()
@@ -56,6 +58,9 @@ class HomeFragment : Fragment(), ConnectTypeDialogFragment.ConnectTypeDialogList
     // The CapturePlayerView
     private lateinit var capturePlayerView: InstaCapturePlayerView
 
+    // Shared Preferences
+    private lateinit var sharedPreferencesManager: SharedPreferencesManager
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -63,7 +68,7 @@ class HomeFragment : Fragment(), ConnectTypeDialogFragment.ConnectTypeDialogList
 
         // Initialize the capturePlayerView and CameraPreviewManager
         capturePlayerView = binding.capturePlayerView
-        cameraPreviewManager = CameraPreviewManager(cameraViewModel, alertViewModel)
+        cameraPreviewManager = CameraPreviewManager(requireContext(), cameraViewModel, alertViewModel)
         cameraPreviewManager.bindLifecycle(capturePlayerView, viewLifecycleOwner.lifecycle)
         InstaCameraManager.getInstance().setPreviewStatusChangedListener(cameraPreviewManager)
         handler = Handler(Looper.getMainLooper())
@@ -72,6 +77,10 @@ class HomeFragment : Fragment(), ConnectTypeDialogFragment.ConnectTypeDialogList
         alertLogAdapter = AlertLogAdapter(emptyList())
         alertRecyclerView.adapter = alertLogAdapter
         alertRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Set up the hazard detection AI
+        //hazardDetectionManager = HazardDetectionManager(requireContext(), alertViewModel, cameraPreviewManager, viewLifecycleOwner.lifecycleScope)
+
 
         setFragmentListeners()      // Set the fragment listeners to update the UI
         setButtonListeners()        // Set the button listeners to update the UI
@@ -84,6 +93,7 @@ class HomeFragment : Fragment(), ConnectTypeDialogFragment.ConnectTypeDialogList
     override fun onDestroyView() {
         super.onDestroyView()
         InstaCameraManager.getInstance().setPreviewStatusChangedListener(null)
+        //hazardDetectionManager.close()
         _binding = null
     }
 
@@ -112,8 +122,8 @@ class HomeFragment : Fragment(), ConnectTypeDialogFragment.ConnectTypeDialogList
             val ssid = generalViewModel.cameraSSID.value.toString()
             val password = generalViewModel.cameraPass.value.toString()
 
-            cameraConnectionManager = CameraConnectionManager(cameraViewModel, requireContext(), ssid, password)
-            startCameraConnectionProcess(connectType, cameraConnectionManager)
+            cameraConnectionManager = CameraConnectionManager(cameraPreviewManager, cameraViewModel, requireContext(), ssid, password)
+            cameraConnectionManager.connectCamera(connectType)
         }
     }
 
@@ -179,7 +189,7 @@ class HomeFragment : Fragment(), ConnectTypeDialogFragment.ConnectTypeDialogList
             alertLogAdapter.updateAlerts(alerts)
         }
 
-        // TODO the HomeViewModel for the pause/unpause button!
+        // TODO the HomeViewModel for the lock/unlock button!
     }
 
     private fun setButtonListeners() {
@@ -200,34 +210,4 @@ class HomeFragment : Fragment(), ConnectTypeDialogFragment.ConnectTypeDialogList
         }
     }
 
-    private fun startCameraConnectionProcess(type: Int, cameraConnectionManager: CameraConnectionManager) {
-
-        cameraConnectionManager.connectCamera(type)
-
-        startTime = System.currentTimeMillis()
-        runnable = object : Runnable {
-            override fun run() {
-                val elapsedTime = System.currentTimeMillis() - startTime
-                if(cameraViewModel.isCameraConnected.value == true) {
-                    Log.i("HomeFragment", "The supported resolutions are: ")
-                    val supportedList = InstaCameraManager.getInstance().getSupportedPreviewStreamResolution(InstaCameraManager.PREVIEW_TYPE_LIVE)
-                    Log.i("HomeFragment", supportedList.toString())
-
-                    Log.i("HomeFragment", "Launching the preview stream :3")
-                    InstaCameraManager.getInstance().setPreviewStatusChangedListener(cameraPreviewManager)
-                    InstaCameraManager.getInstance().startPreviewStream(PreviewStreamResolution.STREAM_1920_960_30FPS,InstaCameraManager.PREVIEW_TYPE_LIVE)
-
-                    handler.removeCallbacks(this)
-                } else if(elapsedTime >= 10000) {
-                    Log.e("HomeFragment", "Unable to connect.")
-                    cameraViewModel.setCameraConnectingStatusChanged(false)
-                    handler.removeCallbacks(this)
-                } else {
-                    Log.i("HomeFragment", "Waiting to connect to camera...")
-                    handler.postDelayed(this, 1000)
-                }
-            }
-        }
-        handler.post(runnable)
-    }
 }
